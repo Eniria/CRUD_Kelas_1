@@ -1,3 +1,8 @@
+<?php
+//panggil koneksi database
+include "koneksi.php";
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -35,17 +40,68 @@
                         <th>Action</th>
                     </tr>
 
-                    <tr>
-                        <td>1</td>
-                        <td>2042101867</td>
-                        <td>kasiani</td>
-                        <td>cupuwatu 1</td>
-                        <td>S1 Informatika</td>
-                        <td>
-                            <a href="#" class="btn btn-warning">Ubah</a>
-                            <a href="#" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
+                    <?php
+                    $no = 1;
+                    $tampil = mysqli_query($koneksi, "select * from mahasiswa ORDER BY id DESC");
+                    while ($data = mysqli_fetch_array($tampil)) :
+                    ?>
+                        <tr>
+                            <td><?= $no++ ?></td>
+                            <td><?= $data['nim'] ?></td>
+                            <td><?= $data['nama'] ?></td>
+                            <td><?= $data['alamat'] ?></td>
+                            <td><?= $data['prodi'] ?></td>
+
+                            <td>
+                                <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editdata<?= $no ?>">Ubah</a>
+                                <a href="#" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        <!--  Awal update -->
+                        <div class="modal fade" id="editdata<?= $no ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Form Data Mahasiswa</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="tambah.php" method="POST">
+                                        <input type="hidden" name="id_mhs" value="<?= $data['id_mhs'] ?>">
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label class="form-label">NIM</label>
+                                                <input type="text" class="form-control" name="tnim" value="<?= $data['nim'] ?>" placeholder="Masukkan nim anda">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Nama Lengkap</label>
+                                                <input type="text" class="form-control" name="tnama" value="<?= $data['nama'] ?>" placeholder="Masukkan nama lengkap anda">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Alamat</label>
+                                                <textarea class="form-control" name="talamat" rows="3"><?= $data['nama'] ?></textarea>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Prodi</label>
+                                                <select name="tprodi" class="form-select">
+                                                    <option value="<?= $data['prodi'] ?>"><?= $data['prodi'] ?></option>
+                                                    <option value="S1 Informatika">S1 Informatika</option>
+                                                    <option value="S1 Manajemen">S1 Manajemen</option>
+                                                    <option value="S1 Agama Kristen">S1 Agama Kristen</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary" name="bsimpan">Simpan</button>
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Keluar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  akhir update -->
+
+                    <?php endwhile; ?>
                 </table>
             </div>
         </div>
@@ -53,10 +109,6 @@
 </body>
 
 </html>
-
-
-
-
 <!--  Awal Modal -->
 <div class="modal fade" id="modalTambah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -65,8 +117,7 @@
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Form Data Mahasiswa</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
-            <form action="aksi_crud.php" method="POST">
+            <form action="tambah.php" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">NIM</label>
@@ -99,4 +150,4 @@
         </div>
     </div>
 </div>
-<!--  Awal Modal -->
+<!--  akhir Modal -->
