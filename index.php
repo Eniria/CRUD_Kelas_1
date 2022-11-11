@@ -54,7 +54,7 @@ include "koneksi.php";
 
                             <td>
                                 <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editdata<?= $no ?>">Ubah</a>
-                                <a href="#" class="btn btn-danger">Delete</a>
+                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Deletedata<?= $no ?>">Delete</a>
                             </td>
                         </tr>
                         <!--  Awal update -->
@@ -65,8 +65,8 @@ include "koneksi.php";
                                         <h1 class="modal-title fs-5" id="staticBackdropLabel">Form Data Mahasiswa</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <form action="tambah.php" method="POST">
-                                        <input type="hidden" name="id_mhs" value="<?= $data['id_mhs'] ?>">
+                                    <form action="update.php" method="POST">
+                                        <input type="hidden" name="id" value="<?= $data['id'] ?>">
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <label class="form-label">NIM</label>
@@ -92,7 +92,7 @@ include "koneksi.php";
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary" name="bsimpan">Simpan</button>
+                                            <button type="submit" class="btn btn-primary" name="bubah">Ubah</button>
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Keluar</button>
                                         </div>
                                     </form>
@@ -100,6 +100,33 @@ include "koneksi.php";
                             </div>
                         </div>
                         <!--  akhir update -->
+
+                        <!--  Awal delete-->
+                        <div class="modal fade" id="Deletedata<?= $no ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Form Data Mahasiswa</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="delete.php" method="POST">
+                                        <input type="hidden" name="id" value="<?= $data['id'] ?>">
+                                        <div class="modal-body">
+                                            <h3 class="text-center"> apakah anda yakin ingin menghapus data ini? <br>
+                                                <span class="text-danger"><?= $data['nim'] ?> - <?= $data['nama'] ?></span>
+                                            </h3>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary" name="bhapus">Hapus</button>
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Keluar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  akhir  -->
+
+
 
                     <?php endwhile; ?>
                 </table>
